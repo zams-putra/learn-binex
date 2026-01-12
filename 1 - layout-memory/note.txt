@@ -1,0 +1,54 @@
+1. layout memori x86
+
+- layout general:
+> low addr -> 0x000000
+> high addr -> 0xffffff
+> low to high (4gb)
+> segment.text -> .data -> .bss -> heap -> stack -> arg. env var -> kernel space
+
+- fungsi2 nya:
+> yg di ELF: segment.text, .data, .bss
+> segment .text berisi instruksi coding dll: misal mov eax ..
+> segment .data berisi: var global
+> segment .bss berisi: (unitialized) global tapi ga terinisiasi
+> segment text yg berisi code: 0x08....
+> data dinamis: heap, stack
+> heap: data dinamis misal malloc / new Object gitu2
+> stack: var local disimpan disini, misal urutan pemanggilan fungsi
+> argv envVar: argv parameter, env variable yg dikirim dari OS
+> kernel space: khusus kernel, program gabisa akses
+
+- conclusion sementara :
+> jadi yg bisa di manipulasi program yg di: segment -> argv and env
+
+- aslr :
+> addr space layout randomization, nambahin offset random
+> ada gap segmen dan heap, tujuannya mempersulit proses exploit
+
+
+
+- layout stack x86, bukan 64bit:
+> saat pemanggilan fungsi
+> stack frame fungsi saat ini: ebp -> esp
+> stack frame fungsi yg manggil: param N -> return addr
+
+- layout stack x86 64bit:
+> param1 ke rdi, param2 ke rsi, paramN ke register yg lain lagi, baru call func
+> rbp -> rsp
+
+
+- tools :
+> gdb, ghidra buat reverse engineer, gdb buat binex
+> ghidra itu static, gdb dynamic
+> gdb nya gdb linux ya, soalnya targetnya binary ELF bukan .exe
+
+
+- step :
+-> compile:
+> gcc -no-pie -fno-pic -fno-stack-protector -m32
+> biar: disable proteksi, jadi coba yg basic dulu
+> -m32, memory32
+> makesure di vm support gcc multilib, buat compile ke 32 bit
+-> run gdb or r2 -d  :
+> gdb vanilla susah pada pake pwndbg
+> itu kek plugginnya gdb, gdb versi enaknya lah
