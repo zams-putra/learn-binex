@@ -82,7 +82,7 @@ pwndbg> x/8bx 0x7fffffffdba8
 
 - nanti biar ada input nya pakai step over biar bisa ada input :
 > si: step into
-> ni: step over
+> ni: next interaction
 ```c
 pwndbg> ni
 AAAAAAAA //buffer var c, 8/8

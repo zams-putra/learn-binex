@@ -1,0 +1,6 @@
+4 - overwrite return address (x86)
+
+- layout stack (x86 - 64bit) saat funcsi selesai (return) :
+> rsp (var lokal N) - rbp saved rbp (leave); end
+> ret (rsp) [overwrite ret addr disini] - stack frame fungsi yg manggil (rbp)
+> after ret: rsp - rbp (di stack frame fungsi yg manggil)
